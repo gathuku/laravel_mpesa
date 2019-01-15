@@ -1,0 +1,14 @@
+{
+    "name": "gathuku/laravelmpesa",
+    "description": "A simple mpesa package for laravel framework",
+    "type": "laravel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "moses gathuku",
+            "email": "mosesgathuku95@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
