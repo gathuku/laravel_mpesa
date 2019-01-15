@@ -112,8 +112,8 @@ class Mpesa {
          $this->lnmocallback = config('mpesa.lnmocallback');
 		 $this->test_msisdn = config('mpesa.test_msisdn');
     // c2b the urls
-     $this->cbvalidate=config('mpesa.c2b_validate');
-     $this->cbconfirm=config('mpesa.c2b_validate');
+     $this->cbvalidate=config('mpesa.c2b_validate_callback');
+     $this->cbconfirm=config('mpesa.c2b_confirm_callback');
 
      // b2c URLs
      $this->bctimeout=config('mpesa.b2c_timeout');
@@ -128,7 +128,7 @@ class Mpesa {
 
 	 //We override the above $this->cred with the testing credentials
 	//	$this->cred = 'jQGehsgnujMdEnVOhGq3YdX72blQnpZ+RPgYhe15kU2+UiUkauYDbsxbv+rgVgK4nKU/90R6V7CZDx4+e6KcYQMKCwJht9FfdxG3gC8g2fgxlrCvR+RnObwLOBfJ9htDVyUCJjxP31J/RoC7j25N3g7WDRfcoDXrhRUmG9NGLua+leF6ssJrNxFv6S0aT8S1ihl3aueGAuZxWr7OnbagZZElPueAZKEs8IJDKCh4xkZVUevvUysZCZuHqchMKLYDv80zK/XJ46/Ja/7F1+Qw7180bR/XcptV3ttXV56kGvJ/GMp6FUUem32o2bJMvu+6AkqJnczj0QNq5ZVtTudjvg==';
-		$this->access_token = $this->get_accesstoken(); //Set up access token
+		$this->access_token = $this->getAccessToken(); //Set up access token
 	}
 
 	/**
@@ -141,7 +141,7 @@ class Mpesa {
 	 * @return object|boolean Curl response or FALSE on failure
 	 * @throws exception if the Access Token is not valid
 	 */
-	public function get_accesstoken(){
+	public function getAccessToken(){
 		$credentials = base64_encode($this->consumer_key.':'.$this->consumer_secret);
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials');
@@ -173,7 +173,7 @@ class Mpesa {
 		if(isset($this->access_token)){
 			$access_token = $this->access_token;
 		}else{
-			$access_token = $this->get_accesstoken();
+			$access_token = $this->getAccessToken();
 		}
 		//var_dump($access_token);
 		if($access_token != '' || $access_token !== FALSE){
@@ -264,7 +264,7 @@ class Mpesa {
 	 * @return object Curl Response from submit_request, FALSE on failure
 	 */
 
-	public function c2b(){
+	public function c2bRegisterUrls(){
 		$request_data = array(
 			'ShortCode' => $this->paybill,
 			'ResponseType' => 'Completed',
@@ -291,7 +291,7 @@ class Mpesa {
 	 * @return object Curl Response from submit_request, FALSE on failure
 	 */
 
-	public function simulate_c2b($amount, $msisdn, $ref){
+	public function simulateC2B($amount, $msisdn, $ref){
 		$data = array(
 			'ShortCode' => $this->paybill,
 			'CommandID' => 'CustomerPayBillOnline',
