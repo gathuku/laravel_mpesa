@@ -150,6 +150,9 @@ class Mpesa {
 		}
 		
 		$this->cred=base64_encode(encrypt($this->initiator_password,$pubkey));
+		//	openssl_public_encrypt($this->initiator_password, $output, $pubkey, OPENSSL_PKCS1_PADDING);
+	      //	$enc .= $output;
+        // $this->cred = base64_encode($output);
 
 		//dd($this->cred);
 	}

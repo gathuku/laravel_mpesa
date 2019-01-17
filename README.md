@@ -101,3 +101,27 @@ You will also receive a  confirmation from your the confirmation you registered
         }
 ```
 
+
+### B2C API
+To use this API you need to call `b2c()` on `Mpesa` facade. This function accept the following parameters
+1. `Amount` - Amount of money sent to a consumer
+2. `MSISDN` - Phone number of consumer
+3. `command_id` -This specifies the type of transaction.There are three allowed values on the API:      `SalaryPayment`, `BusinessPayment` or `PromotionPayment`
+4. `Remarks` - small decription on the payment being made.
+
+```php
+$b2cResponse=Mpesa::b2c(100,'254708374149','PromotionPayment','testing');
+```
+Upon success you should receive below response
+```json
+
+       {
+            "ConversationID": "AG_20190117_00004636fb3ac56655df",
+            "OriginatorConversationID": "17503-13504109-1",
+            "ResponseCode":"0",
+            "ResponseDescription": "Accept the service request successfully."
+        }
+```
+After a successdull transaction you will get get a callback via `b2c_result` you specifies in `mpesa  config`, A sample success callback is below.
+```json
+```
