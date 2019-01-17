@@ -1,6 +1,9 @@
 <?php
 
 return [
+
+     //Specify the environment mpesa is running, sandbox or production
+     'mpesa_env' => 'sandbox',
     /*-----------------------------------------
     |The App consumer key
     |------------------------------------------
@@ -35,7 +38,7 @@ return [
     |Initiator Username.
     |------------------------------------------
     */
-    'initiator_ussername' => '',
+    'initiator_username' => '',
 
     /*-----------------------------------------
     |Initiator Password

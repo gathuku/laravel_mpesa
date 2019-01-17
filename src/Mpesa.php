@@ -94,10 +94,10 @@ class Mpesa {
 
 	public function __construct(){
 
-     if (config('mpesa.mpesa_status')=='live') {
+     if (config('mpesa.mpesa_env')=='sandbox') {
        $this->base_url = 'https://sandbox.safaricom.co.ke/mpesa/';
      }else {
-       $this->base_url = 'https://sandbox.safaricom.co.ke/mpesa/';
+       $this->base_url = 'https://safaricom.safaricom.co.ke/mpesa/';
      }
 		 //Base URL for the API endpoints. This is basically the 'common' part of the API endpoints
 		 $this->consumer_key = config('mpesa.consumer_key'); 	//App Key. Get it at https://developer.safaricom.co.ke
@@ -105,7 +105,7 @@ class Mpesa {
 		 $this->paybill =config('mpesa.paybill'); 									//The paybill/till/lipa na mpesa number
 		 $this->lipa_na_mpesa = config('mpesa.lipa_na_mpesa');								//Lipa Na Mpesa online checkout
 		 $this->lipa_na_mpesa_key = config('mpesa.lipa_na_mpesa_key');	//Lipa Na Mpesa online checkout password
-		 $this->initiator_username = config('mpesa.initiator_usernamme'); 					//Initiator Username. I dont where how to get this.
+		 $this->initiator_username = config('mpesa.initiator_username'); 					//Initiator Username. I dont where how to get this.
 		 $this->initiator_password = config('mpesa.initiator_password'); 				//Initiator password. I dont know where to get this either.
 
 		 $this->callback_baseurl = 'https://91c77dd6.ngrok.io/api/callback';
@@ -119,7 +119,7 @@ class Mpesa {
      $this->bctimeout=config('mpesa.b2c_timeout');
      $this->bcresult=config('mpesa.b2c_result');
 
-		//$pubkey = file_get_contents('public/cert.cer');
+	
     //$pubkey=File::get(storage_path('app/public/thecert.cer'));
 	//	$enc = '';
 	//	openssl_public_encrypt($this->initiator_password, $output, $pubkey, OPENSSL_PKCS1_PADDING);
@@ -141,6 +141,20 @@ class Mpesa {
 	 * @return object|boolean Curl response or FALSE on failure
 	 * @throws exception if the Access Token is not valid
 	 */
+
+	public function setCred(){
+		if(config('mpesa.mpesa_env')=='sandbox'){
+			$pubkey=File::get(storage_path('app/public/sandbox.cer'));
+		}else{
+			$pubkey=File::get(storage_path('app/public/production.cer'));
+		}
+		
+		$this->cred=base64_encode(encrypt($this->initiator_password,$pubkey));
+
+		//dd($this->cred);
+	}
+
+
 	public function getAccessToken(){
 		$credentials = base64_encode($this->consumer_key.':'.$this->consumer_secret);
 		$ch = curl_init();
@@ -203,15 +217,17 @@ class Mpesa {
 	 * @return object Curl Response from submit_request, FALSE on failure
 	 */
 
-	public function b2c($amount, $phone){
+	public function b2c($amount,$phone, $command_id, $remarks){
+		//this function will set b2c credentials
+		$this->setCred();
 		$request_data = array(
 			'InitiatorName' => $this->initiator_username,
 			'SecurityCredential' => $this->cred,
-			'CommandID' => 'PromotionPayment',
+			'CommandID' => $command_id,
 			'Amount' => $amount,
 			'PartyA' => $this->paybill,
 			'PartyB' => $phone,
-			'Remarks' => 'This is a test comment or remark',
+			'Remarks' => $remarks,
 			'QueueTimeOutURL' => $this->bctimeout,
 			'ResultURL' => $this->bcresult,
 			'Occasion' => '' //Optional
