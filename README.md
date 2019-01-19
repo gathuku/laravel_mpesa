@@ -124,4 +124,41 @@ Upon success you should receive below response
 ```
 After a successdull transaction you will get get a callback via `b2c_result` you specifies in `mpesa  config`, A sample success callback is below.
 ```json
+ {
+     "Result":{"ResultType":0,"ResultCode":0,"ResultDesc":"The service request is processed successfully.","OriginatorConversationID":"17492-14303897-1",
+     "ConversationID":"AG_20190119_00005912734ad99a27e8",
+     "TransactionID":"NAJ51H7YJ7",
+     "ResultParameters":{"ResultParameter":[{
+     "Key":"TransactionReceipt","Value":"NAJ51H7YJ7"},
+     {"Key":"TransactionAmount","Value":100},
+     {"Key":"B2CChargesPaidAccountAvailableFunds","Value":-495.00},
+     {"Key":"B2CRecipientIsRegisteredCustomer","Value":"Y"},
+     {"Key":"TransactionCompletedDateTime","Value":"19.01.2019 10:46:22"},
+     {"Key":"ReceiverPartyPublicName","Value":"254708374149 - John Doe"},{"Key":"B2CWorkingAccountAvailableFunds","Value":600000.00},
+     {"Key":"B2CUtilityAccountAvailableFunds","Value":767.00}]},
+     "ReferenceData":{"ReferenceItem":{"Key":"QueueTimeoutURL","Value":"https:\/\/internalsandbox.safaricom.co.ke\/mpesa\/b2cresults\/v1\/submit"}}}}  
 ```
+
+### Mpesa Express
+To run this api call `express` function on `Mpesa` Facade. The function requires the following parameters
+1. `amount` - Amount of money in the transaction
+2. `msisdn` - Phone Number of debit party 
+3. `AccountReference` - Payment reference
+4. `TransactionDesc`  - a small description on the payment
+
+```php
+$expressResponse=Mpesa::express();
+```
+
+
+Upon success `$expressREsponse` will return below response
+```json
+{
+  "MerchantRequestID": "10029-6178310-1"
+  "CheckoutRequestID": "ws_CO_DMZ_291417540_19012019145720246"
+  "ResponseCode": "0"
+  "ResponseDescription": "Success. Request accepted for processing"
+  "CustomerMessage": "Success. Request accepted for processing"
+}
+```
+

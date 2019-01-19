@@ -104,7 +104,7 @@ class Mpesa {
 		 $this->consumer_secret = config('mpesa.consumer_secret'); 					//App Secret Key. Get it at https://developer.safaricom.co.ke
 		 $this->paybill =config('mpesa.paybill'); 									//The paybill/till/lipa na mpesa number
 		 $this->lipa_na_mpesa = config('mpesa.lipa_na_mpesa');								//Lipa Na Mpesa online checkout
-		 $this->lipa_na_mpesa_key = config('mpesa.lipa_na_mpesa_key');	//Lipa Na Mpesa online checkout password
+		 $this->lipa_na_mpesa_key = config('mpesa.lipa_na_mpesa_passkey');	//Lipa Na Mpesa online checkout password
 		 $this->initiator_username = config('mpesa.initiator_username'); 					//Initiator Username. I dont where how to get this.
 		 $this->initiator_password = config('mpesa.initiator_password'); 				//Initiator password. I dont know where to get this either.
 
@@ -149,10 +149,10 @@ class Mpesa {
 			$pubkey=File::get(storage_path('app/public/production.cer'));
 		}
 		
-		$this->cred=base64_encode(encrypt($this->initiator_password,$pubkey));
-		//	openssl_public_encrypt($this->initiator_password, $output, $pubkey, OPENSSL_PKCS1_PADDING);
+		//$this->cred=base64_encode(encrypt($this->initiator_password,$pubkey));
+			openssl_public_encrypt($this->initiator_password, $output, $pubkey, OPENSSL_PKCS1_PADDING);
 	      //	$enc .= $output;
-        // $this->cred = base64_encode($output);
+            $this->cred = base64_encode($output);
 
 		//dd($this->cred);
 	}
@@ -167,7 +167,6 @@ class Mpesa {
 		$response = curl_exec($ch);
 		curl_close($ch);
 		$response = json_decode($response);
-		//\Log::info($response);
 		$access_token = $response->access_token;
        // \Log::info($access_token);
 		// The above $access_token expires after an hour, find a way to cache it to minimize requests to the server
@@ -412,7 +411,7 @@ class Mpesa {
 	 *
 	 * *******************************************************************/
 
-	public function lnmo_request($amount, $phone, $ref = "Payment"){
+	public function express($amount, $phone, $ref = "Payment",$desc="Payment"){
 		if(!is_numeric($amount) || $amount < 1 || !is_numeric($phone)){
 			throw new Exception("Invalid amount and/or phone number. Amount should be 10 or more, phone number should be in the format 254xxxxxxxx");
 			return FALSE;
@@ -430,13 +429,13 @@ class Mpesa {
 			'PhoneNumber' => $phone,
 			'CallBackURL' => $this->lnmocallback,
 			'AccountReference' => $ref,
-			'TransactionDesc' => 'testing too',
+			'TransactionDesc' => $desc,
 		);
 		$data = json_encode($data);
 		$url = $this->base_url.'stkpush/v1/processrequest';
 		$response = $this->submit_request($url, $data);
 		$result = json_decode($response);
-    dump($result);
+            dd($result);
 		//print_r($result);
 		if($c_id = $result->CheckoutRequestID){
 			return $this->lnmo_query($c_id);
