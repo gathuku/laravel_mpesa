@@ -125,18 +125,58 @@ Upon success you should receive below response
 After a successdull transaction you will get get a callback via `b2c_result` you specifies in `mpesa  config`, A sample success callback is below.
 ```json
  {
-     "Result":{"ResultType":0,"ResultCode":0,"ResultDesc":"The service request is processed successfully.","OriginatorConversationID":"17492-14303897-1",
-     "ConversationID":"AG_20190119_00005912734ad99a27e8",
-     "TransactionID":"NAJ51H7YJ7",
-     "ResultParameters":{"ResultParameter":[{
-     "Key":"TransactionReceipt","Value":"NAJ51H7YJ7"},
-     {"Key":"TransactionAmount","Value":100},
-     {"Key":"B2CChargesPaidAccountAvailableFunds","Value":-495.00},
-     {"Key":"B2CRecipientIsRegisteredCustomer","Value":"Y"},
-     {"Key":"TransactionCompletedDateTime","Value":"19.01.2019 10:46:22"},
-     {"Key":"ReceiverPartyPublicName","Value":"254708374149 - John Doe"},{"Key":"B2CWorkingAccountAvailableFunds","Value":600000.00},
-     {"Key":"B2CUtilityAccountAvailableFunds","Value":767.00}]},
-     "ReferenceData":{"ReferenceItem":{"Key":"QueueTimeoutURL","Value":"https:\/\/internalsandbox.safaricom.co.ke\/mpesa\/b2cresults\/v1\/submit"}}}}  
+{
+    "Result": {
+        "ResultType": 0,
+        "ResultCode": 0,
+        "ResultDesc": "The service request is processed successfully.",
+        "OriginatorConversationID": "10030-6237802-1",
+        "ConversationID": "AG_20190119_000053c075d4e13cbeae",
+        "TransactionID": "NAJ41H7YJQ",
+        "ResultParameters": {
+            "ResultParameter": [
+                {
+                    "Key": "TransactionReceipt",
+                    "Value": "NAJ41H7YJQ"
+                },
+                {
+                    "Key": "TransactionAmount",
+                    "Value": 100
+                },
+                {
+                    "Key": "B2CChargesPaidAccountAvailableFunds",
+                    "Value": -495
+                },
+                {
+                    "Key": "B2CRecipientIsRegisteredCustomer",
+                    "Value": "Y"
+                },
+                {
+                    "Key": "TransactionCompletedDateTime",
+                    "Value": "19.01.2019 17:01:27"
+                },
+                {
+                    "Key": "ReceiverPartyPublicName",
+                    "Value": "254708374149 - John Doe"
+                },
+                {
+                    "Key": "B2CWorkingAccountAvailableFunds",
+                    "Value": 600000
+                },
+                {
+                    "Key": "B2CUtilityAccountAvailableFunds",
+                    "Value": 235
+                }
+            ]
+        },
+        "ReferenceData": {
+            "ReferenceItem": {
+                "Key": "QueueTimeoutURL",
+                "Value": "https://internalsandbox.safaricom.co.ke/mpesa/b2cresults/v1/submit"
+            }
+        }
+    }
+}
 ```
 
 ### Mpesa Express
@@ -145,6 +185,8 @@ To run this api call `express` function on `Mpesa` Facade. The function requires
 2. `msisdn` - Phone Number of debit party 
 3. `AccountReference` - Payment reference
 4. `TransactionDesc`  - a small description on the payment
+
+ 
 
 ```php
 $expressResponse=Mpesa::express();
@@ -161,4 +203,44 @@ Upon success `$expressREsponse` will return below response
   "CustomerMessage": "Success. Request accepted for processing"
 }
 ```
+After success you will get a callback via `lnmocallback` you specified in config `mpesa` file.
+```json
+{
+    "Body": {
+        "stkCallback": {
+            "MerchantRequestID": "5913-662870-1",
+            "CheckoutRequestID": "ws_CO_DMZ_224117480_19012019164445976",
+            "ResultCode": 0,
+            "ResultDesc": "The service request is processed successfully.",
+            "CallbackMetadata": {
+                "Item": [
+                    {
+                        "Name": "Amount",
+                        "Value": 1
+                    },
+                    {
+                        "Name": "MpesaReceiptNumber",
+                        "Value": "NAJ3ABAMIR"
+                    },
+                    {
+                        "Name": "Balance"
+                    },
+                    {
+                        "Name": "TransactionDate",
+                        "Value": 20190119164514
+                    },
+                    {
+                        "Name": "PhoneNumber",
+                        "Value": 254705112855
+                    }
+                ]
+            }
+        }
+    }
+}
+```
+
+
+
+
 
