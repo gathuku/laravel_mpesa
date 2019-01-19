@@ -25,7 +25,7 @@ The package will help you integrating the following APIs, available in mpesa dar
 You can install this awesome package via composer
 
 ```
-composer require gathuku\laravel_mpesa
+composer require gathuku/laravelmpesa
 
 ```
 If you're using Laravel 5.5, this is all have to do.
