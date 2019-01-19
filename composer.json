@@ -10,5 +10,18 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Gathuku\\Mpesa\\":"src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Gathuku\\Mpesa\\ServiceProvider"
+            ]
+        
+        }
+    }
 }
