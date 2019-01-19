@@ -19,7 +19,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Gathuku\\Mpesa\\ServiceProvider"
+                "Gathuku\\Mpesa\\MpesaServiceProvider"
             ]
         
         }
