@@ -6,7 +6,7 @@ The package will help you integrating the following APIs, available in mpesa dar
 
 - C2B (consumer to business)
 - B2C (business to cunsumers)
-- Lipa na mpesa online
+- Lipa na mpesa online(Mpesa Express)
 - Reversal
 - Transaction status
 - Account balance
@@ -19,15 +19,59 @@ You can install this awesome package via composer
 composer require gathuku\laravel_mpesa
 
 ```
-The package will install automatically to your application. After the package has been istalled in your project run
+If you're using Laravel 5.5, this is all have to do.
 
+Should you still be on version 5.4 of Laravel, the final steps for you are to add the service provider of the package and alias the package. To do this open your `config/app.php` file.
+
+Add a new line to the `providers` array:
+```
+ Gathuku\Mpesa\MpesaServiceProvider::class,
+```
+And optionally add a new line to the `aliases` array:
+```
+'Mpesa' => Gathuku\Mpesa\Facades\Mpesa::class,
+```
+
+Next, After the package have been installed run
 ```
 php artisan vendor:publish
 ```
-This will help in publishing mpesa_config in your application config. From the mpesa config file this where you will define if your application is running in sandbox or production. If your application is running on sandbox you  will define `'mpesa_status' => 'sandbox',`
-You will continue filling your details from your application in [developers portal ](developers.safaricom.co.ke)
+This will help in publishing `config/mpesa.php` file. . From the mpesa config file this where you will define if your application is running in sandbox or production. If your application is running on sandbox you  will define `'mpesa_status' => 'sandbox',`
+You will continue filling your test credentials from your application in [developers portal ](developers.safaricom.co.ke)
 
-When you publish mpesa config it will come with test credentials which can be used in sandbox.For production you will need to change all this credentials.
+```php
+<?php
+
+return [
+    //Specify the environment mpesa is running, sandbox or production
+    'mpesa_env' => 'sandbox',
+    /*-----------------------------------------
+    |The App consumer key
+    |------------------------------------------
+    */
+    'consumer_key'   => 'aR7R09zePq0OSfOttvuQDrfdM4n37i0C',  
+
+    /*-----------------------------------------
+    |The App consumer Secret
+    |------------------------------------------
+    */                     
+    'consumer_secret' => 'F9AebI6azDlRjLiR',     
+    
+    /*-----------------------------------------
+    |The paybill number
+    |------------------------------------------
+    */
+    'paybill'         => 601380, 
+    
+    /*-----------------------------------------
+    |The Lipa Na Mpesa Online shortcode
+    |------------------------------------------
+    */
+    'lipa_na_mpesa'  => '174379',
+];
+```
+
+For production you need to replace with production credentials.
 
 
 ## Usage
@@ -67,7 +111,7 @@ Upon successful simulation you will receive this responce
         }
 
 ```
-For you to receive payment confirmation you need to register a route in routes/api.php according to the confirmation you registered.Then you can use laravel log facade to log the request content.
+For you to receive payment confirmation you need to register a route in `routes/api.php` according to the confirmation you registered.Then you can use laravel log facade to log the request content.
 For example the following urls you can get validation and confirmation requests using the code below
 ```
 //Validation url
