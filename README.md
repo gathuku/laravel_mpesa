@@ -88,23 +88,30 @@ For production you need to replace with production credentials.
 ### Register C2B Urls
 This API enables you to register the callback URLs via which you shall receive payment notifications for payments to your paybill/till number. Read more on [official safaricom documentation](https://developer.safaricom.co.ke/docs) or on [ a simplified documentation by Peter Njeru](https://peternjeru.co.ke/safdaraja/ui/)
 
-To register Urls call this method using Mpesa facade from your controller
+To register Urls ensure `c2b_validate_callback` and `c2b_confirm_callback` are filled in `config/mpesa.php`. When Testing on sandbox you can use [ngrok](https://ngrok.com/) to expose your callbacks to the internet.Then you call call `c2bRegisterUrls()` on `Mpesa` facade.
 
 ```php
 $registerUrlsResponse=Mpesa::c2bRegisterUrls()
 ```
 
 Upon successful registering of urls you should get the following response
+```json
+{
+	"ConversationID": "",
+	"OriginatorCoversationID": "",
+	"ResponseDescription": "success"
+}
+```
 
 
 ### C2B API
-You can use C2B API to simulate payment from clients and safaricom API
+You can use C2B API to simulate payment from clients and safaricom API. Before simulating you need to have registere your urls using `Register C2B Urls API`.
 
-To use C2B you need to pass three parameters to simulate C2B function
+To use C2B ensure `consumer_key`,`consumer_secret`,`paybill` are set in `config/mpesa.php`. To simulate you need to pass three parameters to `simulateC2B` function.
 
-1. The amount being simulated
-2. Test MSISDN- form API test credentials
-3. Bill reference
+1. The `amount` being simulated
+2. Test `MSISDN`- form API test credentials
+3. Bill `reference`
 
 ```php
 $simulateResponse=Mpesa::simulateC2B(100, "254708374149", "Testing");
@@ -120,7 +127,7 @@ Upon successful simulation you will receive this responce
         }
 
 ```
-For you to receive payment confirmation you need to register a route in `routes/api.php` according to the confirmation you registered.Then you can use laravel log facade to log the request content.
+For you to receive payment confirmation you need to register a route in `routes/api.php` according to the confirmation you registered.Then you can use laravel log facade to log the request content in `storage/logs/laravel.log` file.
 For example the following urls you can get validation and confirmation requests using the code below
 ```
 //Validation url
@@ -242,7 +249,7 @@ To run this api call `express` function on `Mpesa` Facade. The function requires
  
 
 ```php
-$expressResponse=Mpesa::express();
+$expressResponse=Mpesa::express(100,'2547112855','24242524','Testing Payment');
 ```
 
 
@@ -292,6 +299,15 @@ After success you will get a callback via `lnmocallback` you specified in config
     }
 }
 ```
+
+### Contribution
+Thankyou for considering to contribute on `laravelmpesa`. Make a pull request to contribute.
+
+### Security Vulnerabilities
+If you discover a security vulnerability within `laravelmpesa`, please send an e-mail to Moses Gathuku via gathukumoses12@gmail.com. All security vulnerabilities will be promptly addressed.
+
+### License
+The `laravelmpesa` package is open-sourced software licensed under the MIT [MIT license](https://opensource.org/licenses/MIT)
 
 
 
