@@ -185,7 +185,6 @@ Upon success you should receive below response
 After a successdull transaction you will get get a callback via `b2c_result` you specifies in `mpesa  config`, A sample success callback is below.
 ```json
  {
-{
     "Result": {
         "ResultType": 0,
         "ResultCode": 0,
