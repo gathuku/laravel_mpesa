@@ -185,7 +185,6 @@ Upon success you should receive below response
 After a successdull transaction you will get get a callback via `b2c_result` you specifies in `mpesa  config`, A sample success callback is below.
 ```json
  {
-{
     "Result": {
         "ResultType": 0,
         "ResultCode": 0,
@@ -256,10 +255,10 @@ $expressResponse=Mpesa::express(100,'2547112855','24242524','Testing Payment');
 Upon success `$expressREsponse` will return below response
 ```json
 {
-  "MerchantRequestID": "10029-6178310-1"
-  "CheckoutRequestID": "ws_CO_DMZ_291417540_19012019145720246"
-  "ResponseCode": "0"
-  "ResponseDescription": "Success. Request accepted for processing"
+  "MerchantRequestID": "10029-6178310-1",
+  "CheckoutRequestID": "ws_CO_DMZ_291417540_19012019145720246",
+  "ResponseCode": "0",
+  "ResponseDescription": "Success. Request accepted for processing",
   "CustomerMessage": "Success. Request accepted for processing"
 }
 ```
