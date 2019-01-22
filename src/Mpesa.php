@@ -143,18 +143,20 @@ class Mpesa {
 	 */
 
 	public function setCred(){
+		
+		
 		if(config('mpesa.mpesa_env')=='sandbox'){
-			$pubkey=File::get(storage_path('app/public/sandbox.cer'));
+			$pubkey=File::get(__DIR__.'/cert/sandbox.cer');
 		}else{
-			$pubkey=File::get(storage_path('app/public/production.cer'));
+			$pubkey=File::get(__DIR__.'/cert/production.cer');
 		}
 		
-		//$this->cred=base64_encode(encrypt($this->initiator_password,$pubkey));
-			openssl_public_encrypt($this->initiator_password, $output, $pubkey, OPENSSL_PKCS1_PADDING);
-	      //	$enc .= $output;
-            $this->cred = base64_encode($output);
+		
+		openssl_public_encrypt($this->initiator_password, $output, $pubkey, OPENSSL_PKCS1_PADDING);
+	      
+        $this->cred = base64_encode($output);
 
-		//dd($this->cred);
+		
 	}
 
 

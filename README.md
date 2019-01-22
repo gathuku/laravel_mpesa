@@ -127,17 +127,25 @@ Upon successful simulation you will receive this responce
         }
 
 ```
-For you to receive payment confirmation you need to register a route in `routes/api.php` according to the confirmation you registered.Then you can use laravel log facade to log the request content in `storage/logs/laravel.log` file.
-For example the following urls you can get validation and confirmation requests using the code below
+For you to receive payment confirmation you need to register a route in `routes/api.php` according to the confirmation and validation callbacks you registered.Then you can use laravel log facade to log the request content in `storage/logs/laravel.log` file.
+For example the following urls callbacks you can get validation and confirmation requests using the code below
 ```
-//Validation url
+//Validation callback
 https://b2d7e6a4.ngrok.io/api/validate?key=ertyuiowwws
 
-//Confirmation url
+//Confirmation callback
 https://b2d7e6a4.ngrok.io/api/confirm?key=ertyuiowwws
 ```
+For validation callback
 ```php
-Route::post('validate/confirm', function(Request $request){
+Route::post('validate', function(Request $request){
+    Log::info($request->getContent());
+});
+```
+
+For confirmation callback
+```php
+Route::post('confirm', function(Request $request){
     Log::info($request->getContent());
 });
 ```
