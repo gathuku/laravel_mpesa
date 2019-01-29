@@ -97,7 +97,7 @@ class Mpesa {
      if (config('mpesa.mpesa_env')=='sandbox') {
        $this->base_url = 'https://sandbox.safaricom.co.ke/mpesa/';
      }else {
-       $this->base_url = 'https://safaricom.safaricom.co.ke/mpesa/';
+       $this->base_url = 'https://api.safaricom.co.ke/mpesa/';
      }
 		 //Base URL for the API endpoints. This is basically the 'common' part of the API endpoints
 		 $this->consumer_key = config('mpesa.consumer_key'); 	//App Key. Get it at https://developer.safaricom.co.ke
@@ -146,9 +146,11 @@ class Mpesa {
 		
 		
 		if(config('mpesa.mpesa_env')=='sandbox'){
+			
 			$pubkey=File::get(__DIR__.'/cert/sandbox.cer');
 		}else{
 			$pubkey=File::get(__DIR__.'/cert/production.cer');
+			
 		}
 		
 		
@@ -186,14 +188,13 @@ class Mpesa {
 	}
 
 	private function submit_request($url, $data){ // Returns cURL response
-		//$access_token = $this->get_accesstoken();
-		//var_dump($data);
+		
 		if(isset($this->access_token)){
 			$access_token = $this->access_token;
 		}else{
 			$access_token = $this->getAccessToken();
 		}
-		//var_dump($access_token);
+		
 		if($access_token != '' || $access_token !== FALSE){
 			$curl = curl_init();
 			curl_setopt($curl, CURLOPT_URL, $url);
