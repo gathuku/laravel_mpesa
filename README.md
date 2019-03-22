@@ -20,7 +20,7 @@ The package will help you integrating the following APIs, available in mpesa dar
 - Transaction status
 - Account balance
 
- 
+
 ## Installation
 You can install this awesome package via composer
 
@@ -48,6 +48,7 @@ php artisan vendor:publish
 This will help in publishing `config/mpesa.php` file. . From the mpesa config file this where you will define if your application is running in sandbox or production. If your application is running on sandbox you  will define `'mpesa_status' => 'sandbox',`
 You will continue filling your test credentials from your application in [developers portal ](developers.safaricom.co.ke)
 
+
 ```php
 <?php
 
@@ -65,13 +66,13 @@ return [
     |------------------------------------------
     */                     
     'consumer_secret' => 'F9AebI6azDlRjLiR',     
-    
+
     /*-----------------------------------------
     |The paybill number
     |------------------------------------------
     */
-    'paybill'         => 601380, 
-    
+    'paybill'         => 601380,
+
     /*-----------------------------------------
     |The Lipa Na Mpesa Online shortcode
     |------------------------------------------
@@ -81,6 +82,11 @@ return [
 ```
 
 For production you need to replace with production credentials.
+
+For security reason you may need to define your API in `env` file. For example
+```php
+  'consumer_key'   => env('CONSUMER_KEY'),
+```
 
 
 ## Usage
@@ -163,7 +169,7 @@ You will also receive a  confirmation from your the confirmation you registered
             "OrgAccountBalance": "900.00",
             "ThirdPartyTransID": "",
             "MSISDN": "254708374149",
-            "FirstName": "John", 
+            "FirstName": "John",
             "MiddleName": "J.",
             "LastName": "Doe"
         }
@@ -246,14 +252,21 @@ After a successdull transaction you will get get a callback via `b2c_result` you
 }
 ```
 
-### Mpesa Express
+### Lipa na Mpesa Online
+The following must be filled in `config/mpesa.php`
+- 'consumer_key' => ''
+- 'consumer_secret' => ''
+- 'lipa_na_mpesa' => ''
+- 'lipa_na_mpesa_passkey' => ''
+- 'lnmocallback' => '',
+
 To run this api call `express` function on `Mpesa` Facade. The function requires the following parameters
 1. `amount` - Amount of money in the transaction
-2. `msisdn` - Phone Number of debit party 
+2. `msisdn` - Phone Number of debit party
 3. `AccountReference` - Payment reference
 4. `TransactionDesc`  - a small description on the payment
 
- 
+
 
 ```php
 $expressResponse=Mpesa::express(100,'2547112855','24242524','Testing Payment');
@@ -315,8 +328,3 @@ If you discover a security vulnerability within `laravelmpesa`, please send an e
 
 ### License
 The `laravelmpesa` package is open-sourced software licensed under the MIT [MIT license](https://opensource.org/licenses/MIT)
-
-
-
-
-
