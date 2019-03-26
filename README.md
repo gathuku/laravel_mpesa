@@ -1,5 +1,6 @@
 # Laravel Mpesa Package
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/414b845bd4ec44a1894d4f7a7499c227)](https://app.codacy.com/app/gathuku/laravel_mpesa?utm_source=github.com&utm_medium=referral&utm_content=gathuku/laravel_mpesa&utm_campaign=Badge_Grade_Dashboard)
 [![Latest Version](https://img.shields.io/github/release/gathuku/laravel_mpesa.svg?style=flat-square)](https://github.com/gathuku/laravel_mpesa/releases)
 
 [![Issues](https://img.shields.io/github/issues/gathuku/laravel_mpesa.svg?style=flat-square)](https://github.com/gathuku/laravel_mpesa/issues)
