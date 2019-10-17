@@ -93,6 +93,8 @@ For security reason you may need to define your API in `env` file. For example
 This API enables you to register the callback URLs via which you shall receive payment notifications for payments to your paybill/till number. Read more on [official safaricom documentation](https://developer.safaricom.co.ke/docs) or on [ a simplified documentation by Peter Njeru](https://peternjeru.co.ke/safdaraja/ui/)
 
 To register Urls ensure `c2b_validate_callback` and `c2b_confirm_callback` are filled in `config/mpesa.php`. When Testing on sandbox you can use [ngrok](https://ngrok.com/) to expose your callbacks to the internet.Then you call call `c2bRegisterUrls()` on `Mpesa` facade.
+> Remember to import `Mpesa facade`
+>> `use Mpesa`
 
 ```php
 $registerUrlsResponse=Mpesa::c2bRegisterUrls()
