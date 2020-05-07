@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\File;
 
 
 class Mpesa {
-     
+
 
 
 	/**
@@ -119,7 +119,7 @@ class Mpesa {
      $this->bctimeout=config('mpesa.b2c_timeout');
      $this->bcresult=config('mpesa.b2c_result');
 
-	
+
     //$pubkey=File::get(storage_path('app/public/thecert.cer'));
 	//	$enc = '';
 	//	openssl_public_encrypt($this->initiator_password, $output, $pubkey, OPENSSL_PKCS1_PADDING);
@@ -143,22 +143,22 @@ class Mpesa {
 	 */
 
 	public function setCred(){
-		
-		
+
+
 		if(config('mpesa.mpesa_env')=='sandbox'){
-			
+
 			$pubkey=File::get(__DIR__.'/cert/sandbox.cer');
 		}else{
 			$pubkey=File::get(__DIR__.'/cert/production.cer');
-			
+
 		}
-		
-		
+
+
 		openssl_public_encrypt($this->initiator_password, $output, $pubkey, OPENSSL_PKCS1_PADDING);
-	      
+
         $this->cred = base64_encode($output);
 
-		
+
 	}
 
 
@@ -174,27 +174,27 @@ class Mpesa {
 		$access_token = $response->access_token;
        // \Log::info($access_token);
 		// The above $access_token expires after an hour, find a way to cache it to minimize requests to the server
-        
-        
-        if(!$access_token){
+
+
+    if(!$access_token){
 			//throw new Exception("Invalid access token generated");
 			//die;
 			return FALSE;
 		}
 
 		$this->access_token = $access_token;
-        return $access_token;
-        
+    return $access_token;
+
 	}
 
 	private function submit_request($url, $data){ // Returns cURL response
-		
+
 		if(isset($this->access_token)){
 			$access_token = $this->access_token;
 		}else{
 			$access_token = $this->getAccessToken();
 		}
-		
+
 		if($access_token != '' || $access_token !== FALSE){
 			$curl = curl_init();
 			curl_setopt($curl, CURLOPT_URL, $url);
