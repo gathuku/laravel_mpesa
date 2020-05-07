@@ -18,10 +18,18 @@ class MpesaServiceProvider extends ServiceProvider
        // require __DIR__.'/routes/web.php';
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
 
-        //publish the config files
-        $this->publishes([
-            __DIR__.'/../config/mpesa.php' => config_path('mpesa.php'),
-        ],'mpesa-config');
+        if($this->app->runningInConsole()){
+          //publish the config files
+          $this->publishes([
+              __DIR__.'/../config/mpesa.php' => config_path('mpesa.php'),
+          ],'mpesa-config');
+
+          // Register commands
+          $this->command([
+            InstallMpesa::class,
+          ]);
+        }
+
     }
 
     /**
