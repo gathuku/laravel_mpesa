@@ -25,7 +25,7 @@ class MpesaServiceProvider extends ServiceProvider
           ],'mpesa-config');
 
           // Register commands
-          $this->command([
+          $this->commands([
             InstallMpesa::class,
           ]);
         }

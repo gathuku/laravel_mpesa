@@ -5,7 +5,7 @@ namespace Gathuku\Mpesa\Tests;
 use Orchestra\Testbench\TestCase;
 use Gathuku\Mpesa\MpesaServiceProvider;
 
-class ExampleTest extends TestCase
+class BaseTest extends TestCase
 {
     protected function getEnvironmentSetUp($app)
     {

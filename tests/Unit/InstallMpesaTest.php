@@ -4,9 +4,9 @@ namespace Gathuku\Mpesa\Tests\Unit;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
-use Gathuku\Mpesa\Tests\Testcase;
+use Gathuku\Mpesa\Tests\BaseTest;
 
-class InstallMpesaTest extends TestCase
+class InstallMpesaTest extends BaseTest
 {
   function the_install_command_copies_a_the_configuration()
    {

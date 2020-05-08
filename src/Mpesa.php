@@ -172,9 +172,6 @@ class Mpesa {
 		curl_close($ch);
 		$response = json_decode($response);
 		$access_token = $response->access_token;
-       // \Log::info($access_token);
-		// The above $access_token expires after an hour, find a way to cache it to minimize requests to the server
-
 
     if(!$access_token){
 			//throw new Exception("Invalid access token generated");
@@ -184,7 +181,6 @@ class Mpesa {
 
 		$this->access_token = $access_token;
     return $access_token;
-
 	}
 
 	private function submit_request($url, $data){ // Returns cURL response
@@ -438,7 +434,6 @@ class Mpesa {
 		$url = $this->base_url.'stkpush/v1/processrequest';
 		$response = $this->submit_request($url, $data);
 		$result = json_decode($response);
-            dd($result);
 		//print_r($result);
 		if($c_id = $result->CheckoutRequestID){
 			return $this->lnmo_query($c_id);
@@ -468,7 +463,5 @@ class Mpesa {
 		$response = $this->submit_request($url, $data);
 		return $response;
 	}
-
-
-
+	
 }

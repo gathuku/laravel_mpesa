@@ -2,10 +2,10 @@
 
 namespace Gathuku\Mpesa\Tests\Unit;
 
-use Gathuku\Mpesa\Tests\TestCase;
+use Gathuku\Mpesa\Tests\BaseTest;
 use Gathuku\Mpesa\Facades\Mpesa;
 
-class MpesaAuthTokenTest extends Testcase
+class MpesaAuthTokenTest extends BaseTest
 {
 
   function it_can_get_token(){
