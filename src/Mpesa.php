@@ -109,7 +109,7 @@ class Mpesa {
 		 $this->initiator_password = config('mpesa.initiator_password'); 				//Initiator password. I dont know where to get this either.
 
 		 $this->callback_baseurl = 'https://91c77dd6.ngrok.io/api/callback';
-         $this->lnmocallback = config('mpesa.lnmocallback');
+     $this->lnmocallback = config('mpesa.lnmocallback');
 		 $this->test_msisdn = config('mpesa.test_msisdn');
     // c2b the urls
      $this->cbvalidate=config('mpesa.c2b_validate_callback');
@@ -119,15 +119,6 @@ class Mpesa {
      $this->bctimeout=config('mpesa.b2c_timeout');
      $this->bcresult=config('mpesa.b2c_result');
 
-
-    //$pubkey=File::get(storage_path('app/public/thecert.cer'));
-	//	$enc = '';
-	//	openssl_public_encrypt($this->initiator_password, $output, $pubkey, OPENSSL_PKCS1_PADDING);
-	//	$enc .= $output;
-	//	$this->cred = base64_encode($output);
-
-	 //We override the above $this->cred with the testing credentials
-	//	$this->cred = 'jQGehsgnujMdEnVOhGq3YdX72blQnpZ+RPgYhe15kU2+UiUkauYDbsxbv+rgVgK4nKU/90R6V7CZDx4+e6KcYQMKCwJht9FfdxG3gC8g2fgxlrCvR+RnObwLOBfJ9htDVyUCJjxP31J/RoC7j25N3g7WDRfcoDXrhRUmG9NGLua+leF6ssJrNxFv6S0aT8S1ihl3aueGAuZxWr7OnbagZZElPueAZKEs8IJDKCh4xkZVUevvUysZCZuHqchMKLYDv80zK/XJ46/Ja/7F1+Qw7180bR/XcptV3ttXV56kGvJ/GMp6FUUem32o2bJMvu+6AkqJnczj0QNq5ZVtTudjvg==';
 		$this->access_token = $this->getAccessToken(); //Set up access token
 	}
 
@@ -428,14 +419,12 @@ class Mpesa {
 		$url = $this->base_url.'stkpush/v1/processrequest';
 		$response = $this->submit_request($url, $data);
 		$result = json_decode($response);
-		//print_r($result);
 		if(isset($result) && array_key_exists("CheckoutRequestID",$result)){
 			$c_id = $result->CheckoutRequestID;
 			return $this->lnmo_query($c_id);
 		}else{
 			return FALSE;
 		}
-		//return $res;
 	}
 
 	private function lnmo_query($checkoutRequestID = null){

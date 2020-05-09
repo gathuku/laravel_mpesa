@@ -10,6 +10,10 @@ class BaseTest extends TestCase
     protected function getEnvironmentSetUp($app)
     {
       // environment setup
+      // config()->set('mpesa_env','sandbox');
+      // config()->set('consumer_key','ZtkRW6ATbVtFpNml5w5SfG26Adfyagn9');
+      // config()->set('consumer_secret','dosFI1yQ8bvHEVFw');
+      //
     }
 
     public function setUp():void

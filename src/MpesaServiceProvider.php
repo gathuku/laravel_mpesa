@@ -39,6 +39,8 @@ class MpesaServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->mergeConfigFrom(__DIR__.'/../config/mpesa.php', 'mpesa'); 
+
         $this->app->bind('gathuku-mpesa',function(){
              return new Mpesa();
         });
