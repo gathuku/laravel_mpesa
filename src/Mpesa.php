@@ -222,7 +222,6 @@ class Mpesa {
 		$url = $this->base_url.'b2c/v1/paymentrequest';
 		$response = $this->submit_request($url, $data);
 		return $response;
-  //  \Log::info($response);
 	}
 
 	/**
@@ -419,7 +418,7 @@ class Mpesa {
 		$url = $this->base_url.'stkpush/v1/processrequest';
 		$response = $this->submit_request($url, $data);
 		$result = json_decode($response);
-		if(isset($result) && array_key_exists("CheckoutRequestID",$result)){
+		if(isset($result) && isset($result->CheckoutRequestID)){
 			$c_id = $result->CheckoutRequestID;
 			return $this->lnmo_query($c_id);
 		}else{

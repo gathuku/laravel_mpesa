@@ -12,9 +12,9 @@ class MpesaSimeulateC2BTest extends BaseTest
   {
     $response = Mpesa::simulateC2B(100, "254708374149", "Testing");
     $data = json_decode($response,true);
-    $this->assertTrue($response);
+    //$this->assertTrue($response);
     $this->assertArrayHasKey('ConversationID',$data);
-    $this->assertArrayHasKey('OriginatorCoversationID',$data);
+    $this->assertArrayHasKey('OriginatorConversationID',$data);
     $this->assertArrayHasKey('ResponseDescription',$data);
   }
 }
