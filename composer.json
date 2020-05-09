@@ -1,6 +1,12 @@
 {
     "name": "gathuku/laravelmpesa",
     "description": "A simple mpesa package for laravel framework",
+    "homepage": "https://github/gathuku/laravel_mpesa",
+    "keywords": [
+      "mpesa",
+      "laravel",
+      "gathuku"
+    ],
     "type": "laravel",
     "license": "MIT",
     "authors": [
@@ -10,11 +16,30 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+      "php": "^7.1",
+      "illuminate/support": "^5.0|^6.0|^7.0"
+    },
+    "require-dev": {
+       "orchestra/testbench": "^4.0",
+       "phpunit/phpunit": "^8.0"
+    },
     "autoload": {
         "psr-4": {
             "Gathuku\\Mpesa\\":"src/"
         }
+    },
+    "autoload-dev": {
+     "psr-4": {
+         "Gathuku\\Mpesa\\Tests\\": "tests"
+         }
+    },
+    "scripts":{
+      "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+      "sort-packages": true
     },
     "extra": {
         "laravel": {
@@ -24,7 +49,6 @@
             "aliases":{
                 "Mpesa":"Gathuku\\Mpesa\\Facades\\Mpesa"
             }
-        
         }
     }
 }
