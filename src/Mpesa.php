@@ -143,8 +143,6 @@ class Mpesa {
 	 */
 
 	public function setCred(){
-
-
 		if(config('mpesa.mpesa_env')=='sandbox'){
 
 			$pubkey=File::get(__DIR__.'/cert/sandbox.cer');
@@ -152,13 +150,8 @@ class Mpesa {
 			$pubkey=File::get(__DIR__.'/cert/production.cer');
 
 		}
-
-
 		openssl_public_encrypt($this->initiator_password, $output, $pubkey, OPENSSL_PKCS1_PADDING);
-
-        $this->cred = base64_encode($output);
-
-
+    $this->cred = base64_encode($output);
 	}
 
 
@@ -169,18 +162,19 @@ class Mpesa {
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Basic '.$credentials, 'Content-Type: application/json'));
 		$response = curl_exec($ch);
+		$info = curl_getinfo($ch);
 		curl_close($ch);
 		$response = json_decode($response);
-		$access_token = $response->access_token;
 
-    if(!$access_token){
-			//throw new Exception("Invalid access token generated");
-			//die;
-			return FALSE;
+		if($info["http_code"] == 200){
+			$access_token = $response->access_token;
+			$this->access_token = $access_token;
+	    return $access_token;
+		}else{
+			//throw new Exception("Invalid Consumer key or secret");
+			return false;
 		}
 
-		$this->access_token = $access_token;
-    return $access_token;
 	}
 
 	private function submit_request($url, $data){ // Returns cURL response
@@ -435,7 +429,8 @@ class Mpesa {
 		$response = $this->submit_request($url, $data);
 		$result = json_decode($response);
 		//print_r($result);
-		if($c_id = $result->CheckoutRequestID){
+		if(isset($result) && array_key_exists("CheckoutRequestID",$result)){
+			$c_id = $result->CheckoutRequestID;
 			return $this->lnmo_query($c_id);
 		}else{
 			return FALSE;
@@ -463,5 +458,5 @@ class Mpesa {
 		$response = $this->submit_request($url, $data);
 		return $response;
 	}
-	
+
 }
