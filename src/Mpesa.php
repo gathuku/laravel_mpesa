@@ -222,7 +222,6 @@ class Mpesa {
 		$url = $this->base_url.'b2c/v1/paymentrequest';
 		$response = $this->submit_request($url, $data);
 		return $response;
-  //  \Log::info($response);
 	}
 
 	/**
@@ -418,16 +417,22 @@ class Mpesa {
 		$data = json_encode($data);
 		$url = $this->base_url.'stkpush/v1/processrequest';
 		$response = $this->submit_request($url, $data);
-		$result = json_decode($response);
-		if(isset($result) && array_key_exists("CheckoutRequestID",$result)){
-			$c_id = $result->CheckoutRequestID;
-			return $this->lnmo_query($c_id);
+
+		if(isset($response)){
+			return $response;
 		}else{
-			return FALSE;
+			return false;
 		}
+		// $result = json_decode($response);
+		// if(isset($result) && isset($result->CheckoutRequestID)){
+		// 	$c_id = $result->CheckoutRequestID;
+		// 	return $this->lnmo_query($c_id);
+		// }else{
+		// 	return FALSE;
+		// }
 	}
 
-	private function lnmo_query($checkoutRequestID = null){
+	private function lnmoQuery($checkoutRequestID = null){
 		$timestamp = date('YmdHis');
 		$passwd = base64_encode($this->lipa_na_mpesa.$this->lipa_na_mpesa_key.$timestamp);
 
