@@ -432,7 +432,7 @@ class Mpesa {
 		// }
 	}
 
-	private function lnmo_query($checkoutRequestID = null){
+	private function lnmoQuery($checkoutRequestID = null){
 		$timestamp = date('YmdHis');
 		$passwd = base64_encode($this->lipa_na_mpesa.$this->lipa_na_mpesa_key.$timestamp);
 

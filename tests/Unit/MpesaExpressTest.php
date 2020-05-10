@@ -11,9 +11,12 @@ class MpesaExpressTest extends BaseTest
   {
     $response = Mpesa::express(100,'254705112855','24242524','Testing Payment');
     $data = json_decode($response,true);
-    var_dump($data);
-    $this->assertArrayHasKey('MerchantRequestID',$data,"response don't have MerchantRequestID");
-    $this->assertArrayHasKey('CheckoutRequestID',$data, "response don't have CheckoutRequestID");
-    $this->assertArrayHasKey('ResponseDescription',$data, "response don't have ResponseDescription");
+
+    if(isset($result['CheckoutRequestID')){
+      $this->assertArrayHasKey('MerchantRequestID',$data,"response don't have MerchantRequestID");
+      $this->assertArrayHasKey('CheckoutRequestID',$data, "response don't have CheckoutRequestID");
+      $this->assertArrayHasKey('ResponseDescription',$data, "response don't have ResponseDescription");
+    }
+
   }
 }
