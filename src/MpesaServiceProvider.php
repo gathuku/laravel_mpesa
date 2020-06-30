@@ -3,6 +3,7 @@
 namespace Gathuku\Mpesa;
 
 use Illuminate\Support\ServiceProvider;
+use Gathuku\Mpesa\Console\InstallMpesa;
 
 class MpesaServiceProvider extends ServiceProvider
 {
