@@ -19,7 +19,7 @@ The package will help you integrating the following APIs, available in mpesa dar
 - Account balance
 
 ### Documentation
- [Full Documentation](https://laravel-mpesa.netlify.com/)
+ [Full Documentation](https://beyode.co.ke/mpesa/)
 ### Contribution
 Thankyou for considering to contribute on `laravelmpesa`. Make a pull request to contribute.
 
