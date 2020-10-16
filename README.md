@@ -7,24 +7,96 @@
 [![Twiter](https://img.shields.io/twitter/url/https/github.com/gathuku/laravel_mpesa.svg?style=social?style=social)](https://twitter.com/Gathukumose)
 
 
-This package help you in integrating your laravel application with Mpesa daraja APIS. The package eliminate all the hastles and let you concetrate with what is important.
+This package helps you integrate your laravel application with Mpesa daraja APIs. The package eliminates (almost)all the hassles and lets you concetrate on what is important.
 
-The package will help you integrating the following APIs, available in mpesa daraja
+The package will help you integrate with the following APIs, available on mpesa daraja;
 
 - C2B (consumer to business)
-- B2C (business to cunsumers)
+- B2C (business to cunsumer)
 - Lipa na mpesa online(Mpesa Express)
 - Reversal
 - Transaction status
 - Account balance
 
-### Documentation
- [Full Documentation](https://beyode.co.ke/mpesa/)
-### Contribution
-Thankyou for considering to contribute on `laravelmpesa`. Make a pull request to contribute.
+## Documentation
+You are looking at it. But we've also got [beautiful fully navigable docs](https://beyode.co.ke/mpesa/).
+
+## Installation
+You can install this awesome package via composer
+
+```sh
+composer require gathuku/laravelmpesa
+```
+If you're using Laravel >=5.5, this is all you have to do.
+
+Should you still be on version 5.4 of Laravel, the final steps for you are to add the service provider of the package and alias the package. To do this open your `config/app.php` file.
+
+Add a new line to the `providers` array:
+```php
+ Gathuku\Mpesa\MpesaServiceProvider::class,
+```
+And optionally add a new line to the `aliases` array:
+```php
+'Mpesa' => Gathuku\Mpesa\Facades\Mpesa::class,
+```
+
+### Happy Coding :tada: :100:
+
+## Configuration
+Next, After the package have been installed run
+```sh
+php artisan vendor:publish
+```
+This will help in publishing `config/mpesa.php` file. From the mpesa config file this where you will define if your application is running in sandbox or production. If your application is running on sandbox you  will define `'mpesa_status' => 'sandbox',`
+You will continue filling your test credentials from your application in [developers portal ](developers.safaricom.co.ke)
+
+```php
+<?php
+
+return [
+    //Specify the environment mpesa is running, sandbox or production
+    'mpesa_env' => 'sandbox',
+    /*-----------------------------------------
+    |The App consumer key
+    |------------------------------------------
+    */
+    'consumer_key'   => 'aR7R09zePq0OSfOttvuQDrfdM4n37i0C',  
+
+    /*-----------------------------------------
+    |The App consumer Secret
+    |------------------------------------------
+    */                     
+    'consumer_secret' => 'F9AebI6azDlRjLiR',     
+
+    /*-----------------------------------------
+    |The paybill number
+    |------------------------------------------
+    */
+    'paybill'         => 601380,
+
+    /*-----------------------------------------
+    |The Lipa Na Mpesa Online shortcode
+    |------------------------------------------
+    */
+    'lipa_na_mpesa'  => '174379',
+];
+```
+
+For production you need to replace with production credentials.
+
+For security reason you may need to define your API in `env` file. For example
+```php
+  'consumer_key'   => env('CONSUMER_KEY'),
+```
+### Usage
+Full usage and examples in [USAGE.md](./USAGE.md)
+
+### Contributing
+Thank you for considering contributing to `laravelmpesa`. Pull requests and issues welcome.
+Be sure to read through [CONTRIBUTING.md](./CONTRIBUTING.md) and check open issues and PRs before continuing.
 
 ### Security Vulnerabilities
 If you discover a security vulnerability within `laravelmpesa`, please send an e-mail to Moses Gathuku via gathukumoses12@gmail.com. All security vulnerabilities will be promptly addressed.
 
 ### License
-The `laravelmpesa` package is open-sourced software licensed under the MIT [MIT license](https://opensource.org/licenses/MIT)
+The `laravelmpesa` package is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT)
