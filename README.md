@@ -7,7 +7,7 @@
 [![Twiter](https://img.shields.io/twitter/url/https/github.com/gathuku/laravel_mpesa.svg?style=social?style=social)](https://twitter.com/Gathukumose)
 
 
-This package helps you integrate your laravel application with Mpesa daraja APIs. The package eliminates (almost)all the hassles and lets you concetrate on what is important.
+This package helps you integrate your laravel application with Mpesa daraja APIs. The package eliminates (almost)all the hassles and lets you concentrate on what is important.
 
 The package will help you integrate with the following APIs, available on mpesa daraja;
 
@@ -19,7 +19,7 @@ The package will help you integrate with the following APIs, available on mpesa 
 - Account balance
 
 ## Documentation
-You are looking at it. But we've also got [beautiful fully navigable docs](https://beyode.co.ke/mpesa/).
+You are looking at it. But we've also got [beautiful, fully navigable docs](https://beyode.co.ke/mpesa/).
 
 ## Installation
 You can install this awesome package via composer
@@ -43,12 +43,14 @@ And optionally add a new line to the `aliases` array:
 ### Happy Coding :tada: :100:
 
 ## Configuration
-Next, After the package have been installed run
+Next, after the package has been installed run;
 ```sh
 php artisan vendor:publish
 ```
-This will help in publishing `config/mpesa.php` file. From the mpesa config file this where you will define if your application is running in sandbox or production. If your application is running on sandbox you  will define `'mpesa_status' => 'sandbox',`
-You will continue filling your test credentials from your application in [developers portal ](developers.safaricom.co.ke)
+This will help in publishing `config/mpesa.php` file.
+This *mpesa config* file is where you will add all configurations for Mpesa APIs.
+This includes the environment your application is running in(sandbox or production), callback URLs and  required credentials.
+You will obtain credentials from your `app` on Safaricom's [developer portal](developers.safaricom.co.ke).
 
 ```php
 <?php
@@ -84,15 +86,17 @@ return [
 
 For production you need to replace with production credentials.
 
-For security reason you may need to define your API in `env` file. For example
+For security reasons you may want to define your API credentials in `env` file. For example;
 ```php
   'consumer_key'   => env('CONSUMER_KEY'),
 ```
+
 ### Usage
 Full usage and examples in [USAGE.md](./USAGE.md)
 
 ### Contributing
 Thank you for considering contributing to `laravelmpesa`. Pull requests and issues welcome.
+
 Be sure to read through [CONTRIBUTING.md](./CONTRIBUTING.md) and check open issues and PRs before continuing.
 
 ### Security Vulnerabilities
