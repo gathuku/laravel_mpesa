@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\File;
 
 
 class Mpesa {
-     
+
 
 
 	/**
@@ -97,7 +97,7 @@ class Mpesa {
      if (config('mpesa.mpesa_env')=='sandbox') {
        $this->base_url = 'https://sandbox.safaricom.co.ke/mpesa/';
      }else {
-       $this->base_url = 'https://safaricom.safaricom.co.ke/mpesa/';
+       $this->base_url = 'https://api.safaricom.co.ke/mpesa/';
      }
 		 //Base URL for the API endpoints. This is basically the 'common' part of the API endpoints
 		 $this->consumer_key = config('mpesa.consumer_key'); 	//App Key. Get it at https://developer.safaricom.co.ke
@@ -109,7 +109,7 @@ class Mpesa {
 		 $this->initiator_password = config('mpesa.initiator_password'); 				//Initiator password. I dont know where to get this either.
 
 		 $this->callback_baseurl = 'https://91c77dd6.ngrok.io/api/callback';
-         $this->lnmocallback = config('mpesa.lnmocallback');
+     $this->lnmocallback = config('mpesa.lnmocallback');
 		 $this->test_msisdn = config('mpesa.test_msisdn');
     // c2b the urls
      $this->cbvalidate=config('mpesa.c2b_validate_callback');
@@ -119,15 +119,6 @@ class Mpesa {
      $this->bctimeout=config('mpesa.b2c_timeout');
      $this->bcresult=config('mpesa.b2c_result');
 
-	
-    //$pubkey=File::get(storage_path('app/public/thecert.cer'));
-	//	$enc = '';
-	//	openssl_public_encrypt($this->initiator_password, $output, $pubkey, OPENSSL_PKCS1_PADDING);
-	//	$enc .= $output;
-	//	$this->cred = base64_encode($output);
-
-	 //We override the above $this->cred with the testing credentials
-	//	$this->cred = 'jQGehsgnujMdEnVOhGq3YdX72blQnpZ+RPgYhe15kU2+UiUkauYDbsxbv+rgVgK4nKU/90R6V7CZDx4+e6KcYQMKCwJht9FfdxG3gC8g2fgxlrCvR+RnObwLOBfJ9htDVyUCJjxP31J/RoC7j25N3g7WDRfcoDXrhRUmG9NGLua+leF6ssJrNxFv6S0aT8S1ihl3aueGAuZxWr7OnbagZZElPueAZKEs8IJDKCh4xkZVUevvUysZCZuHqchMKLYDv80zK/XJ46/Ja/7F1+Qw7180bR/XcptV3ttXV56kGvJ/GMp6FUUem32o2bJMvu+6AkqJnczj0QNq5ZVtTudjvg==';
 		$this->access_token = $this->getAccessToken(); //Set up access token
 	}
 
@@ -144,17 +135,14 @@ class Mpesa {
 
 	public function setCred(){
 		if(config('mpesa.mpesa_env')=='sandbox'){
-			$pubkey=File::get(storage_path('app/public/sandbox.cer'));
-		}else{
-			$pubkey=File::get(storage_path('app/public/production.cer'));
-		}
-		
-		//$this->cred=base64_encode(encrypt($this->initiator_password,$pubkey));
-			openssl_public_encrypt($this->initiator_password, $output, $pubkey, OPENSSL_PKCS1_PADDING);
-	      //	$enc .= $output;
-            $this->cred = base64_encode($output);
 
-		//dd($this->cred);
+			$pubkey=File::get(__DIR__.'/cert/sandbox.cer');
+		}else{
+			$pubkey=File::get(__DIR__.'/cert/production.cer');
+
+		}
+		openssl_public_encrypt($this->initiator_password, $output, $pubkey, OPENSSL_PKCS1_PADDING);
+    $this->cred = base64_encode($output);
 	}
 
 
@@ -165,33 +153,29 @@ class Mpesa {
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Basic '.$credentials, 'Content-Type: application/json'));
 		$response = curl_exec($ch);
+		$info = curl_getinfo($ch);
 		curl_close($ch);
 		$response = json_decode($response);
-		$access_token = $response->access_token;
-       // \Log::info($access_token);
-		// The above $access_token expires after an hour, find a way to cache it to minimize requests to the server
-        
-        
-        if(!$access_token){
-			//throw new Exception("Invalid access token generated");
-			//die;
-			return FALSE;
+
+		if($info["http_code"] == 200){
+			$access_token = $response->access_token;
+			$this->access_token = $access_token;
+	    return $access_token;
+		}else{
+			//throw new Exception("Invalid Consumer key or secret");
+			return false;
 		}
 
-		$this->access_token = $access_token;
-        return $access_token;
-        
 	}
 
 	private function submit_request($url, $data){ // Returns cURL response
-		//$access_token = $this->get_accesstoken();
-		//var_dump($data);
+
 		if(isset($this->access_token)){
 			$access_token = $this->access_token;
 		}else{
 			$access_token = $this->getAccessToken();
 		}
-		//var_dump($access_token);
+
 		if($access_token != '' || $access_token !== FALSE){
 			$curl = curl_init();
 			curl_setopt($curl, CURLOPT_URL, $url);
@@ -238,7 +222,6 @@ class Mpesa {
 		$url = $this->base_url.'b2c/v1/paymentrequest';
 		$response = $this->submit_request($url, $data);
 		return $response;
-  //  \Log::info($response);
 	}
 
 	/**
@@ -434,18 +417,22 @@ class Mpesa {
 		$data = json_encode($data);
 		$url = $this->base_url.'stkpush/v1/processrequest';
 		$response = $this->submit_request($url, $data);
-		$result = json_decode($response);
-            dd($result);
-		//print_r($result);
-		if($c_id = $result->CheckoutRequestID){
-			return $this->lnmo_query($c_id);
+
+		if(isset($response)){
+			return $response;
 		}else{
-			return FALSE;
+			return false;
 		}
-		//return $res;
+		// $result = json_decode($response);
+		// if(isset($result) && isset($result->CheckoutRequestID)){
+		// 	$c_id = $result->CheckoutRequestID;
+		// 	return $this->lnmo_query($c_id);
+		// }else{
+		// 	return FALSE;
+		// }
 	}
 
-	private function lnmo_query($checkoutRequestID = null){
+	private function lnmoQuery($checkoutRequestID = null){
 		$timestamp = date('YmdHis');
 		$passwd = base64_encode($this->lipa_na_mpesa.$this->lipa_na_mpesa_key.$timestamp);
 
@@ -465,7 +452,5 @@ class Mpesa {
 		$response = $this->submit_request($url, $data);
 		return $response;
 	}
-
-
 
 }
