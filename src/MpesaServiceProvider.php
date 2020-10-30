@@ -16,21 +16,20 @@ class MpesaServiceProvider extends ServiceProvider
     {
         //
 
-       // require __DIR__.'/routes/web.php';
+        // require __DIR__.'/routes/web.php';
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
 
-        if($this->app->runningInConsole()){
-          //publish the config files
-          $this->publishes([
+        if ($this->app->runningInConsole()) {
+            //publish the config files
+            $this->publishes([
               __DIR__.'/../config/mpesa.php' => config_path('mpesa.php'),
-          ],'mpesa-config');
+          ], 'mpesa-config');
 
-          // Register commands
-          $this->commands([
+            // Register commands
+            $this->commands([
             InstallMpesa::class,
           ]);
         }
-
     }
 
     /**
@@ -40,10 +39,10 @@ class MpesaServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/mpesa.php', 'mpesa'); 
+        $this->mergeConfigFrom(__DIR__.'/../config/mpesa.php', 'mpesa');
 
-        $this->app->bind('gathuku-mpesa',function(){
-             return new Mpesa();
+        $this->app->bind('gathuku-mpesa', function () {
+            return new Mpesa();
         });
     }
 }

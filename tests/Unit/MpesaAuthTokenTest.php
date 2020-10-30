@@ -7,10 +7,9 @@ use Gathuku\Mpesa\Facades\Mpesa;
 
 class MpesaAuthTokenTest extends BaseTest
 {
-
-  function it_can_get_token(){
-    $response = Mpesa::getAccessToken();
-    $this->assertTrue($response);
-  }
-
+    public function it_can_get_token()
+    {
+        $response = Mpesa::getAccessToken();
+        $this->assertTrue($response);
+    }
 }

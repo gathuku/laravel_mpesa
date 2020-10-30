@@ -9,7 +9,7 @@ class BaseTest extends TestCase
 {
     protected function getEnvironmentSetUp($app)
     {
-      // environment setup
+        // environment setup
       // config()->set('mpesa_env','sandbox');
       // config()->set('consumer_key','ZtkRW6ATbVtFpNml5w5SfG26Adfyagn9');
       // config()->set('consumer_secret','dosFI1yQ8bvHEVFw');
@@ -18,8 +18,8 @@ class BaseTest extends TestCase
 
     public function setUp():void
     {
-      parent::setup();
-      //additional setup
+        parent::setup();
+        //additional setup
     }
 
     protected function getPackageProviders($app)

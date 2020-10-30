@@ -1,6 +1,6 @@
 <?php
 
 
-Route::get('demo', function(){
+Route::get('demo', function () {
     return "this is demo route";
 });
