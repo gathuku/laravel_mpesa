@@ -50,7 +50,7 @@ php artisan vendor:publish
 This will help in publishing `config/mpesa.php` file.
 This *mpesa config* file is where you will add all configurations for Mpesa APIs.
 This includes the environment your application is running in(sandbox or production), callback URLs and  required credentials.
-You will obtain credentials from your `app` on Safaricom's [developer portal](developers.safaricom.co.ke).
+You will obtain credentials from your `app` on Safaricom's [developer portal](https://developer.safaricom.co.ke).
 
 ```php
 <?php
