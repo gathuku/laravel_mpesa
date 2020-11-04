@@ -68,7 +68,7 @@ return [
     |C2B confirmation url
     |------------------------------------------
     */
-    'c2b_confirm_callback' => 'https://b2d7e6a4.ngrok.io/api/validate?key=ertyuiowwws',
+    'c2b_confirm_callback' => 'https://b2d7e6a4.ngrok.io/api/confirm?key=ertyuiowwws',
 
     /*-----------------------------------------
     |B2C timeout url
