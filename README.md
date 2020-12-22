@@ -44,6 +44,11 @@ And optionally add a new line to the `aliases` array:
 
 ## Configuration
 Next, after the package has been installed run;
+```
+php artisan mpesa:install
+```
+or 
+
 ```sh
 php artisan vendor:publish
 ```
