@@ -150,7 +150,7 @@ class Mpesa
     {
         $credentials = base64_encode($this->consumer_key.':'.$this->consumer_secret);
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->$base_url.'/oauth/v1/generate?grant_type=client_credentials');
+        curl_setopt($ch, CURLOPT_URL, $this->base_url.'/oauth/v1/generate?grant_type=client_credentials');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Basic '.$credentials, 'Content-Type: application/json'));
         $response = curl_exec($ch);
