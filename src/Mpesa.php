@@ -96,9 +96,9 @@ class Mpesa
     public function __construct()
     {
         if (config('mpesa.mpesa_env')=='sandbox') {
-            $this->base_url = 'https://sandbox.safaricom.co.ke/mpesa/';
+            $this->base_url = 'https://sandbox.safaricom.co.ke';
         } else {
-            $this->base_url = 'https://api.safaricom.co.ke/mpesa/';
+            $this->base_url = 'https://api.safaricom.co.ke';
         }
         //Base URL for the API endpoints. This is basically the 'common' part of the API endpoints
          $this->consumer_key = config('mpesa.consumer_key'); 	//App Key. Get it at https://developer.safaricom.co.ke
@@ -150,7 +150,7 @@ class Mpesa
     {
         $credentials = base64_encode($this->consumer_key.':'.$this->consumer_secret);
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials');
+        curl_setopt($ch, CURLOPT_URL, $this->base_url.'/oauth/v1/generate?grant_type=client_credentials');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Basic '.$credentials, 'Content-Type: application/json'));
         $response = curl_exec($ch);
@@ -221,7 +221,7 @@ class Mpesa
             'Occasion' => '' //Optional
         );
         $data = json_encode($request_data);
-        $url = $this->base_url.'b2c/v1/paymentrequest';
+        $url = $this->base_url.'/mpesa/b2c/v1/paymentrequest';
         $response = $this->submit_request($url, $data);
         return $response;
     }
@@ -253,7 +253,7 @@ class Mpesa
             'ResultURL' => $this->bbresult,
         );
         $data = json_encode($request_data);
-        $url = $this->base_url.'b2b/v1/paymentrequest';
+        $url = $this->base_url.'/mpesa/b2b/v1/paymentrequest';
         $response = $this->submit_request($url, $data);
         return $response;
     }
@@ -279,7 +279,7 @@ class Mpesa
         $data = json_encode($request_data);
         //header('Content-Type: application/json');
 
-        $url = $this->base_url.'c2b/v1/registerurl';
+        $url = $this->base_url.'/mpesa/c2b/v1/registerurl';
         $response = $this->submit_request($url, $data);
         //\Log::info($response);
         return $response;
@@ -306,7 +306,7 @@ class Mpesa
             'BillRefNumber' => $ref
         );
         $data = json_encode($data);
-        $url = $this->base_url.'c2b/v1/simulate';
+        $url = $this->base_url.'/c2b/v1/simulate';
         $response = $this->submit_request($url, $data);
         return $response;
     }
@@ -331,7 +331,7 @@ class Mpesa
             'ResultURL' => $this->balresult
         );
         $data = json_encode($data);
-        $url = $this->base_url.'accountbalance/v1/query';
+        $url = $this->base_url.'/mpesa/accountbalance/v1/query';
         $response = $this->submit_request($url, $data);
         return $response;
     }
@@ -360,7 +360,7 @@ class Mpesa
             'Occassion' => 'Test'
         );
         $data = json_encode($data);
-        $url = $this->base_url.'transactionstatus/v1/query';
+        $url = $this->base_url.'/mpesa/transactionstatus/v1/query';
         $response = $this->submit_request($url, $data);
         return $response;
     }
@@ -391,7 +391,7 @@ class Mpesa
             'TransactionID' => 'LIE81C8EFI'
         );
         $data = json_encode($data);
-        $url = $this->base_url.'reversal/v1/request';
+        $url = $this->base_url.'/mpesa/reversal/v1/request';
         $response = $this->submit_request($url, $data);
         return $response;
     }
@@ -424,7 +424,7 @@ class Mpesa
             'TransactionDesc' => $desc,
         );
         $data = json_encode($data);
-        $url = $this->base_url.'stkpush/v1/processrequest';
+        $url = $this->base_url.'/mpesa/stkpush/v1/processrequest';
         $response = $this->submit_request($url, $data);
 
         if (isset($response)) {
@@ -458,7 +458,7 @@ class Mpesa
             'CheckoutRequestID' => $checkoutRequestID
         );
         $data = json_encode($data);
-        $url = $this->base_url.'stkpushquery/v1/query';
+        $url = $this->base_url.'/mpesa/stkpushquery/v1/query';
         $response = $this->submit_request($url, $data);
         return $response;
     }
