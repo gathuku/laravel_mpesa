@@ -1,11 +1,11 @@
 {
-    "name": "gathuku/laravelmpesa",
+    "name": "misthioseagle/laravelmpesa",
     "description": "A simple mpesa package for laravel framework",
     "homepage": "https://github/gathuku/laravel_mpesa",
     "keywords": [
-      "mpesa",
-      "laravel",
-      "gathuku"
+        "mpesa",
+        "laravel",
+        "gathuku"
     ],
     "type": "laravel",
     "license": "MIT",
@@ -17,37 +17,37 @@
     ],
     "minimum-stability": "dev",
     "require": {
-      "php": "^7.1",
-      "illuminate/support": "^5.0|^6.0|^7.0|^8.0"
+        "php": "^7.1",
+        "illuminate/support": "^5.0|^6.0|^7.0|^8.0"
     },
     "require-dev": {
-       "orchestra/testbench": "^4.0",
-       "phpunit/phpunit": "^8.0"
+        "orchestra/testbench": "^4.0",
+        "phpunit/phpunit": "^8.0"
     },
     "autoload": {
         "psr-4": {
-            "Gathuku\\Mpesa\\":"src/"
+            "Gathuku\\Mpesa\\": "src/"
         }
     },
     "autoload-dev": {
-     "psr-4": {
-         "Gathuku\\Mpesa\\Tests\\": "tests"
-         }
+        "psr-4": {
+            "Gathuku\\Mpesa\\Tests\\": "tests"
+        }
     },
-    "scripts":{
-      "test": "vendor/bin/phpunit",
+    "scripts": {
+        "test": "vendor/bin/phpunit",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
     },
     "config": {
-      "sort-packages": true
+        "sort-packages": true
     },
     "extra": {
         "laravel": {
             "providers": [
                 "Gathuku\\Mpesa\\MpesaServiceProvider"
             ],
-            "aliases":{
-                "Mpesa":"Gathuku\\Mpesa\\Facades\\Mpesa"
+            "aliases": {
+                "Mpesa": "Gathuku\\Mpesa\\Facades\\Mpesa"
             }
         }
     }
