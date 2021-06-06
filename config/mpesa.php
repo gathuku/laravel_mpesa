@@ -80,6 +80,20 @@ return [
     |B2C results url
     |------------------------------------------
     */
-    'b2c_result' => 'https://b2d7e6a4.ngrok.io/api/validate?key=ertyuiowwws'
+    'b2c_result' => 'https://b2d7e6a4.ngrok.io/api/validate?key=ertyuiowwws',
+
+
+    /*-----------------------------------------
+    |Transaction status timeout url
+    |------------------------------------------
+    */
+    'status_timeout' => 'https://b2d7e6a4.ngrok.io/api/validate?key=ertyuiowwws',
+
+
+    /*-----------------------------------------
+    |Transaction status results url
+    |------------------------------------------
+    */
+    'status_result' => 'https://b2d7e6a4.ngrok.io/api/validate?key=ertyuiowwws'
 
 ];

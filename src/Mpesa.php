@@ -121,6 +121,10 @@ class Mpesa
         $this->bctimeout=config('mpesa.b2c_timeout');
         $this->bcresult=config('mpesa.b2c_result');
 
+        // transaction status urls
+        $this->statustimeout = config('mpesa.status_timeout');
+        $this->statusresult = config('mpesa.status_result');
+
         $this->access_token = $this->getAccessToken(); //Set up access token
     }
 
