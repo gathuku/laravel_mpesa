@@ -2,6 +2,7 @@
 
 namespace Gathuku\Mpesa;
 
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
 
