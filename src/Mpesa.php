@@ -117,6 +117,10 @@ class Mpesa
         $this->cbvalidate=config('mpesa.c2b_validate_callback');
         $this->cbconfirm=config('mpesa.c2b_confirm_callback');
 
+        // balance urls
+        $this->baltimeout = config('mpesa.balance_timeout');
+        $this->balresult = config('mpesa.balance_result');
+
         // b2c URLs
         $this->bctimeout=config('mpesa.b2c_timeout');
         $this->bcresult=config('mpesa.b2c_result');
