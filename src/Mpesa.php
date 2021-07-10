@@ -356,6 +356,8 @@ class Mpesa
 
     public function status_request($transaction = 'LH7819VXPE')
     {
+        $this->setCred();
+        
         $data = array(
             'CommandID' => 'TransactionStatusQuery',
             'PartyA' => $this->paybill,
