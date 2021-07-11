@@ -329,6 +329,8 @@ class Mpesa
      */
     public function check_balance()
     {
+        $this->setCred();
+        
         $data = array(
             'CommandID' => 'AccountBalance',
             'PartyA' => $this->paybill,
