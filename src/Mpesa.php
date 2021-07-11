@@ -356,7 +356,7 @@ class Mpesa
      * @return object Curl Response from submit_request, FALSE on failure
      */
 
-    public function status_request($transaction = 'LH7819VXPE')
+    public function status_request($transaction, $remarks, $occassion = null)
     {
         $this->setCred();
         
@@ -364,13 +364,13 @@ class Mpesa
             'CommandID' => 'TransactionStatusQuery',
             'PartyA' => $this->paybill,
             'IdentifierType' => 4,
-            'Remarks' => 'Testing API',
+            'Remarks' => $remarks,
             'Initiator' => $this->initiator_username,
             'SecurityCredential' => $this->cred,
             'QueueTimeOutURL' => $this->statustimeout,
             'ResultURL' => $this->statusresult,
             'TransactionID' => $transaction,
-            'Occassion' => 'Test'
+            'Occassion' => $occassion
         );
         $data = json_encode($data);
         $url = $this->base_url.'/mpesa/transactionstatus/v1/query';
