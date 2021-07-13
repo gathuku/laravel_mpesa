@@ -391,6 +391,8 @@ class Mpesa
 
     public function reverse_transaction($receiver, $trx_id, $amount)
     {
+        $this->setCred();
+        
         $data = array(
             'CommandID' => 'TransactionReversal',
             'ReceiverParty' => $this->test_msisdn,
