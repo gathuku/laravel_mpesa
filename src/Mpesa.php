@@ -413,11 +413,11 @@ class Mpesa
 
     /*********************************************************************
      *
-     * 	LNMO APIs
+     * LNMO APIs
      *
      * *******************************************************************/
 
-    public function express($amount, $phone, $ref = "Payment", $desc="Payment")
+    public function express($amount, $phone, $ref = "Payment", $desc = "Payment")
     {
         if (!is_numeric($amount) || $amount < 1 || !is_numeric($phone)) {
             throw new Exception("Invalid amount and/or phone number. Amount should be 10 or more, phone number should be in the format 254xxxxxxxx");
@@ -449,10 +449,10 @@ class Mpesa
         }
         // $result = json_decode($response);
         // if(isset($result) && isset($result->CheckoutRequestID)){
-        // 	$c_id = $result->CheckoutRequestID;
-        // 	return $this->lnmo_query($c_id);
+        //  $c_id = $result->CheckoutRequestID;
+        //  return $this->lnmo_query($c_id);
         // }else{
-        // 	return FALSE;
+        //  return FALSE;
         // }
     }
 
