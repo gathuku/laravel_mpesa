@@ -3,7 +3,6 @@
 namespace Gathuku\Mpesa;
 
 use Exception;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
 
 class Mpesa
@@ -247,6 +246,8 @@ class Mpesa
 
     public function b2b($amount, $shortcode)
     {
+        $this->setCred();
+
         $request_data = array(
             'Initiator' => $this->initiator_username,
             'SecurityCredential' => $this->cred,
@@ -290,7 +291,6 @@ class Mpesa
 
         $url = $this->base_url.'/mpesa/c2b/v1/registerurl';
         $response = $this->submit_request($url, $data);
-        //\Log::info($response);
         return $response;
     }
 
