@@ -456,7 +456,13 @@ class Mpesa
         // }
     }
 
-    private function lnmoQuery($checkoutRequestID = null)
+    /**
+     * This method checks the status of a LipaNaMpesaOnline request
+     *
+     * @param string $checkoutRequestID
+     * @return mixed
+     */
+    public function lnmoQuery($checkoutRequestID)
     {
         $timestamp = date('YmdHis');
         $passwd = base64_encode($this->lipa_na_mpesa.$this->lipa_na_mpesa_key.$timestamp);
