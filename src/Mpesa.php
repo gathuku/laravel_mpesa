@@ -463,11 +463,6 @@ class Mpesa
         $timestamp = date('YmdHis');
         $passwd = base64_encode($this->lipa_na_mpesa.$this->lipa_na_mpesa_key.$timestamp);
 
-        if ($checkoutRequestID == null || $checkoutRequestID == '') {
-            //throw new Exception("Checkout Request ID cannot be null");
-            return false;
-        }
-
         $data = array(
             'BusinessShortCode' => $this->lipa_na_mpesa,
             'Password' => $passwd,
