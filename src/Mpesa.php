@@ -2,7 +2,7 @@
 
 namespace Gathuku\Mpesa;
 
-use Illuminate\Support\Facades\Log;
+use Exception;
 use Illuminate\Support\Facades\File;
 
 class Mpesa
@@ -116,9 +116,17 @@ class Mpesa
         $this->cbvalidate=config('mpesa.c2b_validate_callback');
         $this->cbconfirm=config('mpesa.c2b_confirm_callback');
 
+        // balance urls
+        $this->baltimeout = config('mpesa.balance_timeout');
+        $this->balresult = config('mpesa.balance_result');
+
         // b2c URLs
         $this->bctimeout=config('mpesa.b2c_timeout');
         $this->bcresult=config('mpesa.b2c_result');
+
+        // transaction status urls
+        $this->statustimeout = config('mpesa.status_timeout');
+        $this->statusresult = config('mpesa.status_result');
 
         $this->access_token = $this->getAccessToken(); //Set up access token
     }
@@ -238,6 +246,8 @@ class Mpesa
 
     public function b2b($amount, $shortcode)
     {
+        $this->setCred();
+
         $request_data = array(
             'Initiator' => $this->initiator_username,
             'SecurityCredential' => $this->cred,
@@ -281,7 +291,6 @@ class Mpesa
 
         $url = $this->base_url.'/mpesa/c2b/v1/registerurl';
         $response = $this->submit_request($url, $data);
-        //\Log::info($response);
         return $response;
     }
 
@@ -320,6 +329,8 @@ class Mpesa
      */
     public function check_balance()
     {
+        $this->setCred();
+        
         $data = array(
             'CommandID' => 'AccountBalance',
             'PartyA' => $this->paybill,
@@ -345,19 +356,21 @@ class Mpesa
      * @return object Curl Response from submit_request, FALSE on failure
      */
 
-    public function status_request($transaction = 'LH7819VXPE')
+    public function status_request($transaction, $remarks, $occassion = null)
     {
+        $this->setCred();
+        
         $data = array(
             'CommandID' => 'TransactionStatusQuery',
             'PartyA' => $this->paybill,
             'IdentifierType' => 4,
-            'Remarks' => 'Testing API',
+            'Remarks' => $remarks,
             'Initiator' => $this->initiator_username,
             'SecurityCredential' => $this->cred,
             'QueueTimeOutURL' => $this->statustimeout,
             'ResultURL' => $this->statusresult,
             'TransactionID' => $transaction,
-            'Occassion' => 'Test'
+            'Occassion' => $occassion
         );
         $data = json_encode($data);
         $url = $this->base_url.'/mpesa/transactionstatus/v1/query';
@@ -378,6 +391,8 @@ class Mpesa
 
     public function reverse_transaction($receiver, $trx_id, $amount)
     {
+        $this->setCred();
+        
         $data = array(
             'CommandID' => 'TransactionReversal',
             'ReceiverParty' => $this->test_msisdn,
@@ -396,13 +411,16 @@ class Mpesa
         return $response;
     }
 
-    /*********************************************************************
+    /**
+     * This method create a LipaNaMpesaOnline request
      *
-     * 	LNMO APIs
-     *
-     * *******************************************************************/
-
-    public function express($amount, $phone, $ref = "Payment", $desc="Payment")
+     * @param int $amount
+     * @param string $phone
+     * @param string $ref
+     * @param string $desc
+     * @return mixed
+     */
+    public function express($amount, $phone, $ref = "Payment", $desc = "Payment")
     {
         if (!is_numeric($amount) || $amount < 1 || !is_numeric($phone)) {
             throw new Exception("Invalid amount and/or phone number. Amount should be 10 or more, phone number should be in the format 254xxxxxxxx");
@@ -432,24 +450,18 @@ class Mpesa
         } else {
             return false;
         }
-        // $result = json_decode($response);
-        // if(isset($result) && isset($result->CheckoutRequestID)){
-        // 	$c_id = $result->CheckoutRequestID;
-        // 	return $this->lnmo_query($c_id);
-        // }else{
-        // 	return FALSE;
-        // }
     }
 
-    private function lnmoQuery($checkoutRequestID = null)
+    /**
+     * This method checks the status of a LipaNaMpesaOnline request
+     *
+     * @param string $checkoutRequestID
+     * @return mixed
+     */
+    public function lnmoQuery($checkoutRequestID)
     {
         $timestamp = date('YmdHis');
         $passwd = base64_encode($this->lipa_na_mpesa.$this->lipa_na_mpesa_key.$timestamp);
-
-        if ($checkoutRequestID == null || $checkoutRequestID == '') {
-            //throw new Exception("Checkout Request ID cannot be null");
-            return false;
-        }
 
         $data = array(
             'BusinessShortCode' => $this->lipa_na_mpesa,
