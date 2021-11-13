@@ -2,8 +2,8 @@
 
 namespace Gathuku\Mpesa\Tests\Unit;
 
-use Gathuku\Mpesa\Tests\BaseTest;
 use Gathuku\Mpesa\Facades\Mpesa;
+use Gathuku\Mpesa\Tests\BaseTest;
 
 class MpesaB2CTest extends BaseTest
 {
@@ -11,6 +11,13 @@ class MpesaB2CTest extends BaseTest
     {
         $response = Mpesa::b2c(100, '254708374149', 'PromotionPayment', 'testing');
         $data = json_decode($response, true);
+
+        $this->assertNotEmpty($data);
+
+        if (isset($data['errorCode'])) {
+//            throw new \Exception(sprintf('mpesa request failed with error code:%s - %s', $data['errorCode'], $data['errorMessage']));
+            return;
+        }
         //$this->assertTrue($response);
         $this->assertArrayHasKey(
             'ConversationID',
